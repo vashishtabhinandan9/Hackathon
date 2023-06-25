@@ -11,23 +11,24 @@
 
 #define LIGHT_SENSOR_PIN  15  // ESP32 pin GIOP36 (ADC0) connected to light sensor for taking input
 #define LED_PIN           22  // ESP32 pin GIOP22 connected to LED //output
-#define ANALOG_THRESHOLD  1200//threshold of ldr 
+#define LED_PIN2          21
+#define ANALOG_THRESHOLD  2500//threshold of ldr 
 #define RADAR  18
 bool radardetect =false;//radar has detected something
 bool val= false;//to read current value of radar
 int p=0;//to store value of val 
 
-#define TRIG_PIN 23 // ESP32 pin GIOP23 connected to Ultrasonic Sensor's TRIG pin
-#define ECHO_PIN 13 // ESP32 pin GIOP13 connected to Ultrasonic Sensor's ECHO pin
-bool  cam = false;
+//#define TRIG_PIN 23 // ESP32 pin GIOP23 connected to Ultrasonic Sensor's TRIG pin
+//#define ECHO_PIN 13 // ESP32 pin GIOP13 connected to Ultrasonic Sensor's ECHO pin
+//bool  cam = false;
 String work;
-float duration_us, distance_cm;
+//float duration_us, distance_cm;
 
 void setup() {
 
    Serial.begin (9600);
    pinMode(LED_PIN, OUTPUT); // set ESP32 pin to output mode for ldr
-  // pinMode(LED_PIN2, OUTPUT); // set ESP32 pin to output mode for ldr
+   pinMode(LED_PIN2, OUTPUT); // set ESP32 pin to output mode for ldr
    
   pinMode (RADAR, INPUT);
 }
@@ -46,6 +47,7 @@ void loop() {
   // else if (Serial.read() == 'y') cam =false;
 
     if (analogValue > ANALOG_THRESHOLD){ 
+      digitalWrite(LED_PIN2, HIGH);
 
 
       val = digitalRead(RADAR);//radar do it works 
@@ -100,8 +102,10 @@ void loop() {
   
     else{
    digitalWrite(LED_PIN, LOW); 
+   digitalWrite(LED_PIN2, LOW); 
+   
    Serial.println(" => turn off due ldr");
-   cam=false;
+   //cam=false;
   }
 
 }
